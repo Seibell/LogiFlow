@@ -6,9 +6,9 @@ __pycache__/
 *.egg
 
 # Virtual environment
-venv/
+backend/venv/
 
-# Databases
+# Databases (commonly used in Flask projects)
 *.db
 *.sqlite
 
@@ -16,7 +16,7 @@ venv/
 logs/
 *.log
 
-# Configurations
+# Configurations (Secrets, API keys, etc.)
 *.cfg
 *.ini
 *.env
@@ -26,8 +26,13 @@ logs/
 .vscode/
 .idea/
 
-# Node modules (if using a frontend framework like React or Vue alongside Flask)
-node_modules/
+# React (Node modules, build directories, etc.)
+frontend/node_modules/
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
 
 # Distribution / packaging
 .Python
@@ -51,3 +56,28 @@ MANIFEST
 *.swp
 .DS_Store
 *.bak
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
