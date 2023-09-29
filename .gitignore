@@ -1,0 +1,53 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.egg
+
+# Virtual environment
+venv/
+
+# Databases
+*.db
+*.sqlite
+
+# Logs
+logs/
+*.log
+
+# Configurations
+*.cfg
+*.ini
+*.env
+*.json
+
+# IDE-specific settings (e.g., for VS Code or PyCharm)
+.vscode/
+.idea/
+
+# Node modules (if using a frontend framework like React or Vue alongside Flask)
+node_modules/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Miscellaneous
+*.swp
+.DS_Store
+*.bak
