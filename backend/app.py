@@ -44,8 +44,7 @@ def get_data_by_column(column_name):
         return jsonify({'error': 'Month parameter is required'}), 400
     
     try:
-        month_index = int(month)
-        data = df[df['Month'] == month_index][column_name].tolist()
+        data = df[df['Month'] == month][column_name].tolist()
         return jsonify({column_name: data})
     except ValueError:
         return jsonify({'error': 'Invalid month value'}), 400
