@@ -1,6 +1,9 @@
+import { useGetHelloQuery, useGetKpisQuery } from "../state/api";
 import DashboardBox from "./DashboardBox";
 
 const Row1 = () => {
+  // const { data } = useGetKpisQuery();
+  console.log(useGetHelloQuery());
   return (
     <>
       <DashboardBox gridArea="a"></DashboardBox>
