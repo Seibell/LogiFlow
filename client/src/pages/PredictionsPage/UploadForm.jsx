@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "../../theme";
-import FormikTextField from "../../components/FormikTextField";
 
 const theme = createTheme(themeSettings);
 
@@ -44,10 +43,11 @@ function UploadForm() {
     },
     onSubmit: async (values) => {
       try {
-        await axios.post("/api/upload", values);
+        await axios.post("http://localhost:5000/api/upload", values);
         alert("Upload successful!");
         handleClose();
       } catch (error) {
+        console.log(values);
         alert("Upload failed!");
       }
     },
