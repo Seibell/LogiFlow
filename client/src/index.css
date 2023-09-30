@@ -6,7 +6,6 @@ body,
 .app {
   height: 100%;
   width: 100%;
-  background: #242424;
-  color: rgb(226, 206, 206);
+  background: #1f2026;
   font-family: "Lato", sans-serif;
 }
