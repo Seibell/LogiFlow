@@ -2,9 +2,13 @@ import pandas as pd
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 import os
+from service import stl, cf, init_models
 
 app = Flask(__name__)
 CORS(app)
+
+# models
+init_models()
 
 # Load the CSV file into a DataFrame
 csv_directory = os.path.join(os.path.dirname(__file__), 'ml')
@@ -33,6 +37,10 @@ column_mapping = {
     'Month Rank': 16
 }
 
+@app.route('/', methods=['GET'])
+def health():
+    return jsonify({'message': 'OK'})
+
 @app.route('/get_data/<column_name>', methods=['GET'])
 def get_data_by_column(column_name):
     month = request.args.get('month')
@@ -50,10 +58,21 @@ def get_data_by_column(column_name):
     except ValueError:
         return jsonify({'error': 'Invalid month value'}), 400
 
+
+# returns message for format, data object {a,b}
+@app.route('/cost_function', methods=['GET'])
+def get_cost_function():
+    a_constant, b_constant = cf.get_function()
+    res = {
+        'a': a_constant,
+        'b': b_constant
+    }
+    return jsonify({'message': 'formula is in the format `throughput = a*log(cost) + b`', 'data': res})
+
 @app.route('/predict_cargo/<int:num_months>', methods=['GET'])
 def predict_cargo_route(num_months):
-    estimated_cargo_values = predict_cargo(num_months)
-    return jsonify({'estimated_cargo_values': estimated_cargo_values})
+    cargo_values, start_index, end_index = stl.predict(num_months)
+    return jsonify({'data': cargo_values, 'predicted_index': [start_index, end_index]})
 
 @app.route('/predict_throughput/<int:num_months>', methods=['GET'])
 def predict_throughput_route(num_months):
@@ -65,11 +84,6 @@ def predict_congestion_route(num_months):
     estimated_congestion_values = predict_congestion(num_months)
     return jsonify({'estimated_congestion_values': estimated_congestion_values})
 
-def predict_cargo(num_months):
-    # Implement cargo prediction logic for the specified number of months
-    # Return the result as a list of estimated cargo values
-    predicted_values = []  # Replace with your actual prediction logic
-    return predicted_values
 
 def predict_throughput(num_months):
     # Implement throughput prediction logic for the specified number of months
