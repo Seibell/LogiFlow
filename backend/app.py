@@ -3,6 +3,8 @@ from flask_cors import CORS
 import csv
 import os
 import logging
+from datetime import date, timedelta
+import pandas as pd
 
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
@@ -112,6 +114,18 @@ def upload_data():
             last_row = list(csv.reader(csvfile))[-1]
             month_rank = int(float(last_row[-1])) + 1
             id = int(last_row[0]) + 1
+
+            # Extract the last month and year from the last row
+            last_year_str, last_month_str = last_row[1].split()
+            last_month_num = month_names.index(last_month_str) + 1 
+            last_year_num = int(last_year_str)
+
+        # Check if the uploaded month is the month immediately following the last recorded month
+        if int(month) == (last_month_num % 12) + 1 and int(year) == (last_year_num + (last_month_num // 12)):
+            pass
+        else:
+            return jsonify({"message": "You can only upload data for the month immediately after the last recorded month."}), 400
+        
         
         # Append data to CSV
         with open(file_path, 'a', newline='') as csvfile:
