@@ -4,6 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+pandas = "*"
+scipy = "*"
+numpy = "*"
+statsmodels = "*"
+flask-cors = "*"
 
 [dev-packages]
 
