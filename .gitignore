@@ -21,6 +21,7 @@ logs/
 *.ini
 *.env
 *.json
+.venv
 
 # IDE-specific settings (e.g., for VS Code or PyCharm)
 .vscode/
