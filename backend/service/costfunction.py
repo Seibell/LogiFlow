@@ -19,5 +19,5 @@ class CostFunction:
         a,b = params
 
         latest_cost = self.data.iloc[-1]['Operational Cost']
-        slider_range = 500000
+        slider_range = 100000000
         return a, b, latest_cost, slider_range
