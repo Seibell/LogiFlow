@@ -148,7 +148,8 @@ const CargoChart = () => {
         <Line
           type="monotone"
           dataKey="totalCargo"
-          stroke="green"
+          stroke="lightgreen"
+          dot={false}
           activeDot={{ r: 8 }}
           isAnimationActive={false}
         />
@@ -156,6 +157,7 @@ const CargoChart = () => {
           type="monotone"
           dataKey="predictedCargo"
           stroke="red"
+          dot={false}
           activeDot={{ r: 8 }}
           isAnimationActive={false}
         />
