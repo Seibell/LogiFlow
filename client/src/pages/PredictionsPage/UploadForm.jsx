@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-  colors,
 } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "../../theme";
