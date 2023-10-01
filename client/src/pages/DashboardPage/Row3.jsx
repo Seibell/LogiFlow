@@ -4,7 +4,8 @@ import DashboardBox from "../../components/DashboardBox";
 import BoxHeader from "../../components/BoxHeader";
 import { api, useGetNewsQuery } from "../../state/api";
 import { useDispatch } from "react-redux";
-import { useTheme } from "@mui/material";
+import { useTheme, Box } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -16,6 +17,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { DataGrid } from "@mui/x-data-grid";
 
 const months = [
   "Jan",
@@ -37,8 +39,75 @@ const Row3 = ({ yearSetting }) => {
   const { palette } = useTheme();
   const [year, setYear] = useState(yearSetting);
   const [cargoData, setCargoData] = useState([]);
+  const [sentimentScore, setSentimentScore] = useState(0);
+  const [top10LatestNews, setTop10LatestNews] = useState([]);
   const [bunkerSalesData, setBunkerSalesData] = useState([]);
   const news = useGetNewsQuery();
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 40 },
+    {
+      field: "title",
+      headerName: "Headline title",
+      width: 500,
+    },
+    {
+      field: "sentiment",
+      headerName: "Score",
+      width: 60,
+    },
+  ];
+
+  const dataGridTheme = createTheme({
+    components: {
+      MuiDataGrid: {
+        styleOverrides: {
+          root: {
+            "& .MuiDataGrid-cell": {
+              color: "white",
+              borderColor: palette.grey[800],
+            },
+            "& .MuiDataGrid-columnHeader": {
+              color: "white",
+              borderColor: palette.grey[800],
+            },
+            "& .MuiDataGrid-row": {
+              borderColor: palette.grey[800],
+            },
+            "& .MuiPaginationItem-root": {
+              color: "white",
+            },
+            button: {
+              color: "white",
+            },
+            p: {
+              color: "white",
+            },
+          },
+        },
+      },
+    },
+  });
+
+  useEffect(() => {
+    async function getTop10LatestNews() {
+      const top10LatestNews = [];
+      let sum = 0;
+      for (let i = 0; i < 10; i++) {
+        let obj = {
+          id: i + 1,
+          title: news.data[i].headline,
+          sentiment: news.data[i].sentiment_score,
+        };
+        sum += news.data[i].sentiment_score;
+        top10LatestNews.push(obj);
+      }
+      const avg = sum / 10;
+      setSentimentScore(avg);
+      setTop10LatestNews(top10LatestNews);
+    }
+    getTop10LatestNews();
+  }, [news]);
 
   function calculatePercentageChange(data, name) {
     const filteredData = [];
@@ -155,7 +224,7 @@ const Row3 = ({ yearSetting }) => {
     fetchAllData();
   }, [dispatch, year]);
 
-  console.log(news);
+  console.log(top10LatestNews);
   return (
     <>
       {/** ROW 3 COLUMN 1 */}
@@ -220,11 +289,33 @@ const Row3 = ({ yearSetting }) => {
       <DashboardBox gridArea="i">
         <BoxHeader
           title="News Sentiment Analysis"
-          subtitle="Latest headlines from the news related to the port"
-          sideText={"-2.5%"}
+          subtitle="Latest headlines from the news related to the port - sentiment ranges from 0 to 10 (most bearish)"
+          sideText={"Average sentiment score: " + sentimentScore.toFixed(2)}
         />
+        <Box sx={{ height: "82%", width: "100%", padding: 2 }}>
+          <ThemeProvider theme={dataGridTheme}>
+            <DataGrid
+              sx={{
+                borderColor: palette.grey[800],
+                "& .MuiDataGrid-cell:hover": {
+                  color: palette.primary.main,
+                },
+              }}
+              rows={top10LatestNews}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 3,
+                  },
+                },
+              }}
+              pageSizeOptions={[3]}
+              disableRowSelectionOnClick
+            />
+          </ThemeProvider>
+        </Box>
       </DashboardBox>
-      <DashboardBox gridArea="j"></DashboardBox>
     </>
   );
 };

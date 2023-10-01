@@ -25,7 +25,7 @@ function Navbar() {
       <FlexedBox gap="0.75rem">
         <LocalShippingIcon sx={{ fontsize: "28px" }} />
         <Typography variant="h4" fontSize="16px">
-          LogiFlow
+          PSA LogiFlow
         </Typography>
       </FlexedBox>
 
