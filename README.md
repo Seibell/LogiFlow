@@ -43,7 +43,6 @@ Logiflow brings immense value to PSA and its partners in the supply chain ecosys
 Logiflow utilizes a client-server architecture with ReactJS for the frontend and Flask for the backend. Data analysis and AI-driven predictions are integrated to optimize demand and supply. 
 
 ## Features
-Sure, here's an elaboration of your three core features using Markdown:
 
 ### 1. AI-Driven Predictive Analytics
 Logiflow leverages cutting-edge AI algorithms to provide predictive analytics for key port metrics. It analyzes historical data, taking into account factors such as seasonality, market trends, and historical vessel arrivals, cargo, and container throughput. By harnessing the power of AI, Logiflow accurately predicts future months' data, allowing port operators and logistics professionals to make informed decisions. This feature ensures that container logistics operations are well-prepared for fluctuations in demand and can optimize resource allocation accordingly.
