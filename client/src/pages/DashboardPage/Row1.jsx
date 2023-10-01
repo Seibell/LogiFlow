@@ -236,7 +236,6 @@ const Row1 = ({ yearSetting }) => {
               style={{ fontSize: "10px" }}
             />
             <Tooltip />
-            <Legend />
             <Bar dataKey="totalCargo" fill="url(#colorUv)" />
           </BarChart>
         </ResponsiveContainer>
