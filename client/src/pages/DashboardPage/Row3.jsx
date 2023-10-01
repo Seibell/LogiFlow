@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import DashboardBox from "../../components/DashboardBox";
 import BoxHeader from "../../components/BoxHeader";
-import { api } from "../../state/api";
+import { api, useGetNewsQuery } from "../../state/api";
 import { useDispatch } from "react-redux";
 import { useTheme } from "@mui/material";
 import {
@@ -37,6 +37,7 @@ const Row3 = ({ yearSetting }) => {
   const { palette } = useTheme();
   const [year, setYear] = useState(yearSetting);
   const [cargoData, setCargoData] = useState([]);
+  const news = useGetNewsQuery();
 
   function calculatePercentageChange(data, name) {
     const filteredData = [];
@@ -167,7 +168,13 @@ const Row3 = ({ yearSetting }) => {
           </ComposedChart>
         </ResponsiveContainer>
       </DashboardBox>
-      <DashboardBox gridArea="i"></DashboardBox>
+      <DashboardBox gridArea="i">
+        <BoxHeader
+          title="News Sentiment Analysis"
+          subtitle="Latest headlines from the news related to the port"
+          sideText={"-2.5%"}
+        />
+      </DashboardBox>
       <DashboardBox gridArea="j"></DashboardBox>
     </>
   );
