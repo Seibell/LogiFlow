@@ -117,3 +117,29 @@ If `month` is not provided:
   ```
   Returns the entire "Total Cargo (Thousand Tonnes)" column with corresponding months.
 
+### Get Latest News
+
+This route retrieves the latest news related to port operations from the Journal of Commerce.
+
+**Endpoint**: `GET /get_latest_news`
+
+**Description**: Retrieves the latest news articles related to port operations.
+
+**Response**:
+
+```json
+{
+    "message": "Latest news articles related to port operations",
+    "data": [
+        {
+            "headline": "Article Headline 1",
+            "sentiment_score": 8
+        },
+        {
+            "headline": "Article Headline 2",
+            "sentiment_score": 7
+        },
+        // ... (more articles)
+    ]
+}
+
