@@ -7,6 +7,7 @@ from service import stl, cf, init_models
 import logging
 from datetime import date, timedelta
 import pandas as pd
+from sentiment.news import scrape_maritime_executive_news
 
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
@@ -197,6 +198,15 @@ def upload_data():
     except Exception as e:
         logging.error("Exception occured", exc_info=True)
         return jsonify({"message": f"Error: {str(e)}"}), 500
+    
+
+@app.route('/get_latest_news', methods=['GET'])
+def get_latest_news():
+    # Call the scrape_maritime_executive_news() function from news.py
+    news_data = scrape_maritime_executive_news()
+    
+    # Return the scraped data as JSON
+    return jsonify(news_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
