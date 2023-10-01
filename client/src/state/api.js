@@ -23,6 +23,10 @@ export const api = createApi({
     getAllData: build.query({
       query: ({ columnName }) => `/get_data/${encodeURIComponent(columnName)}`,
     }),
+    getCostFunction: build.query({
+      query: () => "/cost_function",
+      providesTags: ["CostFunction"],
+    }),
   }),
 });
 

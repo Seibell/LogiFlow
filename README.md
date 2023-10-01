@@ -53,3 +53,10 @@ Logiflow goes beyond data analysis by providing a unique simulated reports featu
 
 ## Roadmap
 Logiflow's future roadmap includes further enhancements in demand forecasting, advanced AI integration, and scalability to accommodate the growing needs of PSA and the entire supply chain ecosystem. We are committed to ensuring the seamless flow of cargo and reducing operational complexities in container logistics.
+
+## ✍🏻 Contributors
+* Benjamin Toh [@bentohset](https://github.com/bentohset)
+* Ryan Ong [@ryanongwx](https://github.com/ryanongwx)
+* Ryan Lim [@Seibell](https://github.com/Seibell)
+* Wang Yu Teng [@WangYuTengg](https://github.com/WangYuTengg)
+
