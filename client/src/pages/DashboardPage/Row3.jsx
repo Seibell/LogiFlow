@@ -79,6 +79,9 @@ const Row3 = ({ yearSetting }) => {
             button: {
               color: "white",
             },
+            p: {
+              color: "white",
+            },
           },
         },
       },
