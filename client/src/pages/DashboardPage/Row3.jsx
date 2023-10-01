@@ -265,7 +265,13 @@ const Row3 = ({ yearSetting }) => {
             </ComposedChart>
           </ResponsiveContainer>
         ) : (
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            height="80%"
+          >
             <CircularProgress />
           </Box>
         )}
@@ -304,7 +310,13 @@ const Row3 = ({ yearSetting }) => {
             </ComposedChart>
           </ResponsiveContainer>
         ) : (
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            height="80%"
+          >
             <CircularProgress />
           </Box>
         )}
@@ -342,7 +354,13 @@ const Row3 = ({ yearSetting }) => {
             </ThemeProvider>
           </Box>
         ) : (
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            height="80%"
+          >
             <CircularProgress />
           </Box>
         )}

@@ -210,7 +210,13 @@ const Row1 = ({ yearSetting }) => {
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            height="80%"
+          >
             <CircularProgress />
           </Box>
         )}
@@ -253,7 +259,13 @@ const Row1 = ({ yearSetting }) => {
             </BarChart>
           </ResponsiveContainer>
         ) : (
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            height="80%"
+          >
             <CircularProgress />
           </Box>
         )}
@@ -306,7 +318,13 @@ const Row1 = ({ yearSetting }) => {
             </AreaChart>
           </ResponsiveContainer>
         ) : (
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            height="80%"
+          >
             <CircularProgress />
           </Box>
         )}
