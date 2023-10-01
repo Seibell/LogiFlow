@@ -5,6 +5,9 @@ Logiflow is a cutting-edge solution for optimizing demand and supply in the cont
 
 > NOTE: Backend is deployed on Render free tier. Do take note that initial requests to the backend (aka initial loading of the frontend) might take longer than usual
 
+Demo link: https://logiflowpsa.vercel.app
+Video link: https://youtu.be/MpGAmWU2xMw
+
 ## Table of Contents
 - [About](#about)
   - [Problem Statement](#problem-statement)
