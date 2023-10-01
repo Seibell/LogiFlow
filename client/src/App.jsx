@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { themeSettings } from "./theme";
 import Navbar from "./components/Navbar";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/DashboardPage/Dashboard";
 import PredictionsPage from "./pages/PredictionsPage/PredictionsPage";
 
 function App() {
