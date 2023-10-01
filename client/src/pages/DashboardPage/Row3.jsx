@@ -45,16 +45,20 @@ const Row3 = ({ yearSetting }) => {
   const news = useGetNewsQuery();
 
   const columns = [
-    { field: "id", headerName: "ID", width: 40 },
     {
       field: "title",
       headerName: "Headline title",
-      width: 500,
+      width: 470,
     },
     {
       field: "sentiment",
       headerName: "Score",
       width: 60,
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      width: 80,
     },
   ];
 
@@ -98,6 +102,7 @@ const Row3 = ({ yearSetting }) => {
           id: i + 1,
           title: news.data[i].headline,
           sentiment: news.data[i].sentiment_score,
+          date: news.data[i].date,
         };
         sum += news.data[i].sentiment_score;
         top10LatestNews.push(obj);
