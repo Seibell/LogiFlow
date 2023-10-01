@@ -39,6 +39,7 @@ const Row3 = ({ yearSetting }) => {
   const { palette } = useTheme();
   const [year, setYear] = useState(yearSetting);
   const [cargoData, setCargoData] = useState([]);
+  const [sentimentScore, setSentimentScore] = useState(0);
   const [top10LatestNews, setTop10LatestNews] = useState([]);
   const [bunkerSalesData, setBunkerSalesData] = useState([]);
   const news = useGetNewsQuery();
@@ -91,14 +92,18 @@ const Row3 = ({ yearSetting }) => {
   useEffect(() => {
     async function getTop10LatestNews() {
       const top10LatestNews = [];
+      let sum = 0;
       for (let i = 0; i < 10; i++) {
         let obj = {
           id: i + 1,
           title: news.data[i].headline,
           sentiment: news.data[i].sentiment_score,
         };
+        sum += news.data[i].sentiment_score;
         top10LatestNews.push(obj);
       }
+      const avg = sum / 10;
+      setSentimentScore(avg);
       setTop10LatestNews(top10LatestNews);
     }
     getTop10LatestNews();
@@ -284,8 +289,8 @@ const Row3 = ({ yearSetting }) => {
       <DashboardBox gridArea="i">
         <BoxHeader
           title="News Sentiment Analysis"
-          subtitle="Latest headlines from the news related to the port"
-          sideText={"-2.5%"}
+          subtitle="Latest headlines from the news related to the port - sentiment ranges from 0 to 10 (most bearish)"
+          sideText={"Average sentiment score: " + sentimentScore.toFixed(2)}
         />
         <Box sx={{ height: "82%", width: "100%", padding: 2 }}>
           <ThemeProvider theme={dataGridTheme}>
