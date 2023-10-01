@@ -6,6 +6,7 @@ import { themeSettings } from "./theme";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/DashboardPage/Dashboard";
 import PredictionsPage from "./pages/PredictionsPage/PredictionsPage";
+import SimulationsPage from "./pages/SimulationsPage/SimulationsPage";
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
@@ -19,7 +20,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/predictions" element={<PredictionsPage />} />
-              <Route path="/simulation" element={<div>simulation page</div>} />
+              <Route path="/simulation" element={<SimulationsPage />} />
             </Routes>
           </Box>
         </ThemeProvider>
