@@ -11,6 +11,8 @@ numpy = "*"
 statsmodels = "*"
 flask-cors = "*"
 waitress = "*"
+requests = "*"
+bs4 = "*"
 
 [dev-packages]
 

@@ -3,6 +3,8 @@ Harboring tomorrow's insights.
 
 Logiflow is a cutting-edge solution for optimizing demand and supply in the container logistics ecosystem. It addresses the critical challenge of efficient demand-supply management, ensuring a seamless flow of cargo. 
 
+> NOTE: Backend is deployed on Render free tier. Do take note that initial requests to the backend (aka initial loading of the frontend) might take longer than usual
+
 ## Table of Contents
 - [About](#about)
   - [Problem Statement](#problem-statement)
@@ -36,8 +38,8 @@ Logiflow brings immense value to PSA and its partners in the supply chain ecosys
 ![REcharts](https://img.shields.io/badge/REcharts-React_Charting_Library-orange?style=for-the-badge)
 ![Flask](https://img.shields.io/badge/Flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
 
-- Frontend: ReactJS
-- Backend: Flask
+- Frontend: ReactJS deployed on Vercel
+- Backend: Flask deployed on Render
 - Data and AI: Python libraries for data analysis and machine learning (pandas, numpy, scipy, statsmodel)
 
 ### Architecture
