@@ -1,12 +1,23 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Box, Typography, useTheme } from "@mui/material";
-import FlexedBox from "./FlexedBox";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import { Box, Typography, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import FlexedBox from "./FlexedBox";
 
 function Navbar() {
   const { palette } = useTheme();
   const [active, setActive] = useState("dashboard");
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setActive("dashboard");
+    } else if (location.pathname === "/predictions") {
+      setActive("predictions");
+    } else if (location.pathname === "/Simulation") {
+      setActive("Simulations");
+    }
+  }, [location.pathname]);
 
   return (
     <FlexedBox mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
