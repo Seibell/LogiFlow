@@ -66,10 +66,12 @@ def get_data_by_column(column_name):
 # returns message for format, data object {a,b}
 @app.route('/cost_function', methods=['GET'])
 def get_cost_function():
-    a_constant, b_constant = cf.get_function()
+    a_constant, b_constant, latest_cost, slider_range = cf.get_function()
     res = {
         'a': a_constant,
-        'b': b_constant
+        'b': b_constant,
+        'latest_cost': latest_cost,
+        'slider_range': slider_range
     }
     return jsonify({'message': 'formula is in the format `throughput = a*log(cost) + b`', 'data': res})
 

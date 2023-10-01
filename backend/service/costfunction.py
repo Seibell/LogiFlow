@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
-
+# predict throughput based on operational cost
 class CostFunction:
     def __init__(self, filepath):
         self.filepath = filepath
@@ -18,4 +18,6 @@ class CostFunction:
         params, covariance = curve_fit(logarithmic_function, self.data['Operational Cost'], self.data['Throughput'])
         a,b = params
 
-        return a,b
+        latest_cost = self.data[-1]['Operational Cost']
+        slider_range = 500000
+        return a, b, latest_cost, slider_range

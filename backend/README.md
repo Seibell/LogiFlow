@@ -53,10 +53,14 @@ returns JSON:
     'message': 'formula is in the format `throughput = a*log(cost) + b`',
     'data': {
         'a': a_constant,
-        'b': b_constant
+        'b': b_constant,
+        'latest_cost': latest_cost,
+        'slider_range': slider_range
     }
 }
 ```
 where 
 - message is a simple message signifyig the formula and the meaning
 - data object consists of a and b as the constants of the forumla
+- latest cost is the most recent operational cost for the initial value of the slider
+- slider_range is the +- threshold limit for the slider
