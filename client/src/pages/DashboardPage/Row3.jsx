@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import DashboardBox from "../../components/DashboardBox";
 import BoxHeader from "../../components/BoxHeader";
@@ -31,17 +32,22 @@ const months = [
   "Dec",
 ];
 
-const Row3 = () => {
+const Row3 = ({ yearSetting }) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
+  const [year, setYear] = useState(yearSetting);
   const [cargoData, setCargoData] = useState([]);
+
+  useEffect(() => {
+    setYear(yearSetting);
+  }, [yearSetting]);
 
   useEffect(() => {
     async function fetchGeneralCargo(month) {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Cargo (General) (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -51,7 +57,7 @@ const Row3 = () => {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Cargo (Bulk) (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -61,7 +67,7 @@ const Row3 = () => {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Cargo (Oil-In-Bulk) (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -71,7 +77,7 @@ const Row3 = () => {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Cargo (General & Non-Oil In Bulk) (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -109,7 +115,7 @@ const Row3 = () => {
       setCargoData(totalCargoData);
     }
     fetchAllData();
-  }, [dispatch]);
+  }, [dispatch, year]);
 
   return (
     <>

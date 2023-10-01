@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import DashboardBox from "../../components/DashboardBox";
 import BoxHeader from "../../components/BoxHeader";
@@ -34,19 +35,24 @@ const months = [
   "Dec",
 ];
 
-const Row1 = () => {
+const Row1 = ({ yearSetting }) => {
   const dispatch = useDispatch();
+  const [year, setYear] = useState(yearSetting);
   const { palette } = useTheme();
   const [vesselArrivalsData, setVesselArrivalsData] = useState([]);
   const [totalCargoData, setTotalCargoData] = useState([]);
   const [totalThroughPutData, setTotalThroughPutData] = useState([]);
 
   useEffect(() => {
+    setYear(yearSetting);
+  }, [yearSetting]);
+
+  useEffect(() => {
     async function fetchArrivalNumbers(month) {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Vessel Arrivals (Number)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -57,7 +63,7 @@ const Row1 = () => {
         api.endpoints.getData.initiate({
           columnName:
             "Vessel Arrivals - Shipping Tonnage (Thousand Gross Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -67,7 +73,7 @@ const Row1 = () => {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Total Cargo (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -78,7 +84,7 @@ const Row1 = () => {
         api.endpoints.getData.initiate({
           columnName:
             "Total Container Throughput (Thousand Twenty-Foot Equivalent Units)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -125,7 +131,7 @@ const Row1 = () => {
       setTotalThroughPutData(totalThroughPutData);
     }
     fetchAllData();
-  }, [dispatch]);
+  }, [dispatch, year]);
 
   function calculatePercentageChange(data, name) {
     const filteredData = [];
