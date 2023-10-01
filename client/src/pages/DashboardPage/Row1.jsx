@@ -4,7 +4,8 @@ import DashboardBox from "../../components/DashboardBox";
 import BoxHeader from "../../components/BoxHeader";
 import { api } from "../../state/api";
 import { useDispatch } from "react-redux";
-import { useTheme } from "@mui/material";
+import { useTheme, Box } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   ResponsiveContainer,
   Area,
@@ -38,6 +39,7 @@ const months = [
 const Row1 = ({ yearSetting }) => {
   const dispatch = useDispatch();
   const [year, setYear] = useState(yearSetting);
+  const [loading, setLoading] = useState(false);
   const { palette } = useTheme();
   const [vesselArrivalsData, setVesselArrivalsData] = useState([]);
   const [totalCargoData, setTotalCargoData] = useState([]);
@@ -90,6 +92,7 @@ const Row1 = ({ yearSetting }) => {
       return response.data;
     }
     async function fetchAllData() {
+      setLoading(true);
       const arrivalData = [];
       const totalCargoData = [];
       const totalThroughPutData = [];
@@ -129,6 +132,7 @@ const Row1 = ({ yearSetting }) => {
       setTotalCargoData(totalCargoData);
       setVesselArrivalsData(arrivalData);
       setTotalThroughPutData(totalThroughPutData);
+      setLoading(false);
     }
     fetchAllData();
   }, [dispatch, year]);
@@ -161,48 +165,55 @@ const Row1 = ({ yearSetting }) => {
             "vesselArrivalTonnage"
           )}
         />
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            width={500}
-            height={500}
-            margin={{
-              top: 20,
-              right: 20,
-              left: 0,
-              bottom: 45,
-            }}
-            data={vesselArrivalsData}
-          >
-            <CartesianGrid vertical={false} stroke={palette.grey[800]} />
-            <XAxis
-              dataKey="name"
-              tickLine={false}
-              style={{ fontSize: "10px" }}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              style={{ fontSize: "10px" }}
-            />
-            <Tooltip />
-            <Legend
-              height={20}
-              wrapperStyle={{
-                margin: "0 0 10px 0",
+
+        {!loading ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              width={500}
+              height={500}
+              margin={{
+                top: 20,
+                right: 20,
+                left: 0,
+                bottom: 45,
               }}
-            />
-            <Line
-              type="monotone"
-              dataKey="vesselArrivalNumber"
-              stroke={palette.tertiary[500]}
-            />
-            <Line
-              type="monotone"
-              dataKey="vesselArrivalTonnage"
-              stroke={palette.primary.main}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+              data={vesselArrivalsData}
+            >
+              <CartesianGrid vertical={false} stroke={palette.grey[800]} />
+              <XAxis
+                dataKey="name"
+                tickLine={false}
+                style={{ fontSize: "10px" }}
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                style={{ fontSize: "10px" }}
+              />
+              <Tooltip />
+              <Legend
+                height={20}
+                wrapperStyle={{
+                  margin: "0 0 10px 0",
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="vesselArrivalNumber"
+                stroke={palette.tertiary[500]}
+              />
+              <Line
+                type="monotone"
+                dataKey="vesselArrivalTonnage"
+                stroke={palette.primary.main}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        ) : (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <CircularProgress />
+          </Box>
+        )}
       </DashboardBox>
 
       {/** ROW 1 COLUMN 2 */}
@@ -212,33 +223,39 @@ const Row1 = ({ yearSetting }) => {
           subtitle="(thousand tonnes)"
           sideText={calculatePercentageChange(totalCargoData, "totalCargo")}
         />
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            width={500}
-            height={500}
-            margin={{
-              top: 20,
-              right: 20,
-              left: 0,
-              bottom: 55,
-            }}
-            data={totalCargoData}
-          >
-            <CartesianGrid vertical={false} stroke={palette.grey[800]} />
-            <XAxis
-              axisLine={false}
-              tickLine={false}
-              style={{ fontSize: "10px" }}
-            />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              style={{ fontSize: "10px" }}
-            />
-            <Tooltip />
-            <Bar dataKey="totalCargo" fill="url(#colorUv)" />
-          </BarChart>
-        </ResponsiveContainer>
+        {!loading ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              width={500}
+              height={500}
+              margin={{
+                top: 20,
+                right: 20,
+                left: 0,
+                bottom: 55,
+              }}
+              data={totalCargoData}
+            >
+              <CartesianGrid vertical={false} stroke={palette.grey[800]} />
+              <XAxis
+                axisLine={false}
+                tickLine={false}
+                style={{ fontSize: "10px" }}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                style={{ fontSize: "10px" }}
+              />
+              <Tooltip />
+              <Bar dataKey="totalCargo" fill="url(#colorUv)" />
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <CircularProgress />
+          </Box>
+        )}
       </DashboardBox>
 
       {/** ROW 1 COLUMN 3 */}
@@ -251,41 +268,47 @@ const Row1 = ({ yearSetting }) => {
             "totalThroughput"
           )}
         />
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            width={500}
-            height={500}
-            margin={{
-              top: 20,
-              right: 20,
-              left: 0,
-              bottom: 55,
-            }}
-            data={totalThroughPutData}
-          >
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <CartesianGrid strokeDasharray="0 10" />
-            <Tooltip />
-            <Area
-              type="monotone"
-              dataKey="totalThroughput"
-              stroke={palette.primary.light}
-              fillOpacity={1}
-              fill="url(#colorUv)"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+        {!loading ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              width={500}
+              height={500}
+              margin={{
+                top: 20,
+                right: 20,
+                left: 0,
+                bottom: 55,
+              }}
+              data={totalThroughPutData}
+            >
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <CartesianGrid strokeDasharray="0 10" />
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey="totalThroughput"
+                stroke={palette.primary.light}
+                fillOpacity={1}
+                fill="url(#colorUv)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        ) : (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <CircularProgress />
+          </Box>
+        )}
       </DashboardBox>
     </>
   );
