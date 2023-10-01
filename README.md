@@ -59,7 +59,9 @@ Logiflow goes beyond data analysis by providing a unique simulated reports featu
 Based on data, the Total Cargo per month can be forecasted with historical time series analysis
 
 Steps:
-1. Seasonal Decomposition of Time Series using Loess
+
+**1. Seasonal Decomposition of Time Series using Loess**
+
 Since cargo can be affected by many factors such as demand and major news - most often seasonal, the time-series data can be further decomposed into 3 components.
 - Seasonal
 - Trend 
@@ -77,7 +79,8 @@ After decomposition, it can be seen that Trend and Residual components has no we
 
 The Seasonal components can be broken up into its recurring pattern and forecasted accordingly
 
-2. Autoregressive Integrated Moving Average ARIMA models
+**2. Autoregressive Integrated Moving Average ARIMA models**
+
 Since the Trend and Residual components have no well-defined pattern, ARIMA can be used to predict future trends of the 2 components.
 
 It is defined as ARIMA(p,d,q) where p, d, and q denote the number of lagged (or past) observations to consider for autoregression, the number of times the raw observations are differenced, and the size of the moving average window respectively.
@@ -103,14 +106,16 @@ After the above deterministic procedures, the p,d,q values was calculated to be:
 Trend: (2,2,3)
 Residual: (1,2,1)
 
-3. Validation
+**3. Validation**
+
 Mean absolute scaled error can be used to calculate the accuracy of forecasts for time-series data
 
 MASE considers the data the model was trained in the form of 1st order changes or differences which make it a good measure for time-series data irrespective of scale or time.
 
 Calculating the MASE for a partitioned dataset into training and test datasets, the MASE is 0.62212927. Which has a value lower than 1, indicating that the algorithm performs well compared to a naive forecast.
 
-4. Forecasting
+**4. Forecasting**
+
 The acceptable forecasting range is given to be 1-12 datapoints. This is because a significant large forecasting range would prove to be inaccurate and unrealistic in case of external factors.
 
 Predicting up to a year in advance would be the ideal forecast for any decision making required based on historical data.
