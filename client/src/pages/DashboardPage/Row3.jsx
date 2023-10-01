@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import DashboardBox from "../../components/DashboardBox";
 import BoxHeader from "../../components/BoxHeader";
-import { api } from "../../state/api";
+import { api, useGetNewsQuery } from "../../state/api";
 import { useDispatch } from "react-redux";
 import { useTheme } from "@mui/material";
 import {
@@ -37,6 +37,8 @@ const Row3 = ({ yearSetting }) => {
   const { palette } = useTheme();
   const [year, setYear] = useState(yearSetting);
   const [cargoData, setCargoData] = useState([]);
+  const [bunkerSalesData, setBunkerSalesData] = useState([]);
+  const news = useGetNewsQuery();
 
   function calculatePercentageChange(data, name) {
     const filteredData = [];
@@ -98,14 +100,32 @@ const Row3 = ({ yearSetting }) => {
       );
       return response.data;
     }
+
+    async function fetchBunkerSales(month) {
+      const response = await dispatch(
+        api.endpoints.getData.initiate({
+          columnName: "Bunker Sales (Thousand Tonnes)",
+          date: `${year} ${month}`,
+        })
+      );
+      return response.data;
+    }
+
     async function fetchAllData() {
       const totalCargoData = [];
+      const bunkerSalesData = [];
 
       for (let month of months) {
         const generalCargoData = await fetchGeneralCargo(month);
         const bulkCargoData = await fetchBulkCargo(month);
         const oilInBulkCargoData = await fetchOilInBulkCargo(month);
         const nonOilBulkCargoData = await fetchNonOilBulkCargo(month);
+        const bunkerSales = await fetchBunkerSales(month);
+
+        bunkerSalesData.push({
+          name: month,
+          bunkerSales: bunkerSales["Bunker Sales (Thousand Tonnes)"][0],
+        });
 
         totalCargoData.push({
           name: month,
@@ -129,13 +149,43 @@ const Row3 = ({ yearSetting }) => {
         });
       }
       setCargoData(totalCargoData);
+      setBunkerSalesData(bunkerSalesData);
     }
+
     fetchAllData();
   }, [dispatch, year]);
 
+  console.log(news);
   return (
     <>
-      <DashboardBox gridArea="g"></DashboardBox>
+      {/** ROW 3 COLUMN 1 */}
+      <DashboardBox gridArea="g">
+        <BoxHeader
+          title="Total bunker sales (monthly)"
+          subtitle="(Thousand Tonnes)"
+          sideText={calculatePercentageChange(bunkerSalesData, "bunkerSales")}
+        />
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart
+            width={500}
+            height={500}
+            margin={{
+              top: 20,
+              right: 20,
+              left: 0,
+              bottom: 69,
+            }}
+            data={bunkerSalesData}
+          >
+            <CartesianGrid strokeDasharray="0 10" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="bunkerSales" stroke="#ff7300" />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </DashboardBox>
       <DashboardBox gridArea="h">
         <BoxHeader
           title="Cargo Breakdown"
@@ -167,7 +217,13 @@ const Row3 = ({ yearSetting }) => {
           </ComposedChart>
         </ResponsiveContainer>
       </DashboardBox>
-      <DashboardBox gridArea="i"></DashboardBox>
+      <DashboardBox gridArea="i">
+        <BoxHeader
+          title="News Sentiment Analysis"
+          subtitle="Latest headlines from the news related to the port"
+          sideText={"-2.5%"}
+        />
+      </DashboardBox>
       <DashboardBox gridArea="j"></DashboardBox>
     </>
   );

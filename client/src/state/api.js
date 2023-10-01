@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_DEPLOYMENT_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
   reducerPath: "main",
-  tagTypes: ["Kpis", "Hello", "Data"],
+  tagTypes: ["Kpis", "Hello", "Data", "News"],
   endpoints: (build) => ({
     getKpis: build.query({
       query: () => "kpi/kpis/",
@@ -27,6 +27,10 @@ export const api = createApi({
       query: () => "/cost_function",
       providesTags: ["CostFunction"],
     }),
+    getNews: build.query({
+      query: () => "/get_latest_news",
+      providesTags: ["News"],
+    }),
   }),
 });
 
@@ -35,4 +39,5 @@ export const {
   useGetHelloQuery,
   useGetDataQuery,
   useGetAllDataQuery,
+  useGetNewsQuery,
 } = api;

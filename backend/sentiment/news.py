@@ -84,8 +84,7 @@ def scrape_maritime_executive_news():
                     break  # Exit the loop if a high-risk keyword is found
 
             news_list.append({"headline": headline, "sentiment_score": sentiment_score})
-            sorted_news_list = sorted(news_list, key=lambda x: x['sentiment_score'], reverse=True)
 
 
-    return sorted_news_list
+    return news_list
 
