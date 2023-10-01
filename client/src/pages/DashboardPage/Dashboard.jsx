@@ -13,8 +13,8 @@ const gridTemplateLargeScreens = `
   "d e f"
   "d h i"
   "g h i"
-  "g h j"
-  "g h j"
+  "g h i"
+  "g h i"
 `;
 const gridTemplateSmallScreens = `
   "a"
@@ -45,8 +45,8 @@ const gridTemplateSmallScreens = `
   "h"
   "i"
   "i"
-  "j"
-  "j"
+  "i"
+  "i"
 `;
 
 const Dashboard = () => {
