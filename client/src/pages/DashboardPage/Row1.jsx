@@ -111,7 +111,7 @@ const Row1 = ({ yearSetting }) => {
             ? arrivalTonnageData[
                 "Vessel Arrivals - Shipping Tonnage (Thousand Gross Tonnes)"
               ][0] / 10
-            : 0,
+            : null,
         });
         totalCargoData.push({
           name: month,
@@ -155,7 +155,7 @@ const Row1 = ({ yearSetting }) => {
       <DashboardBox gridArea="a">
         <BoxHeader
           title="Vessel Arrivals - Ships & Tonnage"
-          subtitle="Number of ship arrivals and Tonnage (Ten-Thousands Gross Tonnes) per month"
+          subtitle="Number of ship arrivals & Tonnage (10-Thousands Gross Tonnes)"
           sideText={calculatePercentageChange(
             vesselArrivalsData,
             "vesselArrivalTonnage"
@@ -169,7 +169,7 @@ const Row1 = ({ yearSetting }) => {
               top: 20,
               right: 20,
               left: 0,
-              bottom: 55,
+              bottom: 45,
             }}
             data={vesselArrivalsData}
           >

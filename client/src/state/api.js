@@ -20,6 +20,10 @@ export const api = createApi({
         )}`,
       providesTags: ["Data"],
     }),
+    getCostFunction: build.query({
+      query: () => "/cost_function",
+      providesTags: ["CostFunction"]
+    })
   }),
 });
 
