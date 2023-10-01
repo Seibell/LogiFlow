@@ -37,9 +37,10 @@ returns JSON:
 }
 ```
 
-where cargo_dataset is the whole set of total cargo (actual + predicted)
-month_dataset is the whole set of corresponding months for the total cargo data points
-predicted_index is an array of start and end index of the predicted range
+where 
+- cargo_dataset is the whole set of total cargo (actual + predicted)
+- month_dataset is the whole set of corresponding months for the total cargo data points
+- predicted_index is an array of start and end index of the predicted range
 
 ### Get Cost Function
 GET /cost_function
@@ -56,5 +57,6 @@ returns JSON:
     }
 }
 ```
-where message is a simple message signifyig the formula and the meaning
-data object consists of a and b as the constants of the forumla
+where 
+- message is a simple message signifyig the formula and the meaning
+- data object consists of a and b as the constants of the forumla
