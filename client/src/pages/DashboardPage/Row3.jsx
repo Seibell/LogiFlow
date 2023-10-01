@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import DashboardBox from "../../components/DashboardBox";
 import BoxHeader from "../../components/BoxHeader";
@@ -31,17 +32,38 @@ const months = [
   "Dec",
 ];
 
-const Row3 = () => {
+const Row3 = ({ yearSetting }) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
+  const [year, setYear] = useState(yearSetting);
   const [cargoData, setCargoData] = useState([]);
+
+  function calculatePercentageChange(data, name) {
+    const filteredData = [];
+    for (let month of data) {
+      if (month[name] && month[name] !== 0) {
+        filteredData.push(month[name]);
+      }
+    }
+
+    if (filteredData.length < 2) return null;
+
+    const newValue = filteredData[filteredData.length - 1];
+    const oldValue = filteredData[filteredData.length - 2];
+    const percentageChange = ((newValue - oldValue) / oldValue) * 100;
+    return percentageChange.toFixed(2) + "%";
+  }
+
+  useEffect(() => {
+    setYear(yearSetting);
+  }, [yearSetting]);
 
   useEffect(() => {
     async function fetchGeneralCargo(month) {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Cargo (General) (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -51,7 +73,7 @@ const Row3 = () => {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Cargo (Bulk) (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -61,7 +83,7 @@ const Row3 = () => {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Cargo (Oil-In-Bulk) (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -71,7 +93,7 @@ const Row3 = () => {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Cargo (General & Non-Oil In Bulk) (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -109,7 +131,7 @@ const Row3 = () => {
       setCargoData(totalCargoData);
     }
     fetchAllData();
-  }, [dispatch]);
+  }, [dispatch, year]);
 
   return (
     <>
@@ -118,6 +140,7 @@ const Row3 = () => {
         <BoxHeader
           title="Cargo Breakdown"
           subtitle="Consists of General, Bulk, Oil-In-Bulk, General & Non-Oil In Bulk (Thousand Tonnes)"
+          sideText={calculatePercentageChange(cargoData, "averageCargo")}
         />
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart

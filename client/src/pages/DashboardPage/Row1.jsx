@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import DashboardBox from "../../components/DashboardBox";
 import BoxHeader from "../../components/BoxHeader";
@@ -34,19 +35,24 @@ const months = [
   "Dec",
 ];
 
-const Row1 = () => {
+const Row1 = ({ yearSetting }) => {
   const dispatch = useDispatch();
+  const [year, setYear] = useState(yearSetting);
   const { palette } = useTheme();
   const [vesselArrivalsData, setVesselArrivalsData] = useState([]);
   const [totalCargoData, setTotalCargoData] = useState([]);
   const [totalThroughPutData, setTotalThroughPutData] = useState([]);
 
   useEffect(() => {
+    setYear(yearSetting);
+  }, [yearSetting]);
+
+  useEffect(() => {
     async function fetchArrivalNumbers(month) {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Vessel Arrivals (Number)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -57,7 +63,7 @@ const Row1 = () => {
         api.endpoints.getData.initiate({
           columnName:
             "Vessel Arrivals - Shipping Tonnage (Thousand Gross Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -67,7 +73,7 @@ const Row1 = () => {
       const response = await dispatch(
         api.endpoints.getData.initiate({
           columnName: "Total Cargo (Thousand Tonnes)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -78,7 +84,7 @@ const Row1 = () => {
         api.endpoints.getData.initiate({
           columnName:
             "Total Container Throughput (Thousand Twenty-Foot Equivalent Units)",
-          date: `2023 ${month}`,
+          date: `${year} ${month}`,
         })
       );
       return response.data;
@@ -105,7 +111,7 @@ const Row1 = () => {
             ? arrivalTonnageData[
                 "Vessel Arrivals - Shipping Tonnage (Thousand Gross Tonnes)"
               ][0] / 10
-            : 0,
+            : null,
         });
         totalCargoData.push({
           name: month,
@@ -125,7 +131,7 @@ const Row1 = () => {
       setTotalThroughPutData(totalThroughPutData);
     }
     fetchAllData();
-  }, [dispatch]);
+  }, [dispatch, year]);
 
   function calculatePercentageChange(data, name) {
     const filteredData = [];
@@ -149,7 +155,7 @@ const Row1 = () => {
       <DashboardBox gridArea="a">
         <BoxHeader
           title="Vessel Arrivals - Ships & Tonnage"
-          subtitle="Number of ship arrivals and Tonnage (Ten-Thousands Gross Tonnes) per month"
+          subtitle="Number of ship arrivals & Tonnage (10-Thousands Gross Tonnes)"
           sideText={calculatePercentageChange(
             vesselArrivalsData,
             "vesselArrivalTonnage"
@@ -163,7 +169,7 @@ const Row1 = () => {
               top: 20,
               right: 20,
               left: 0,
-              bottom: 55,
+              bottom: 45,
             }}
             data={vesselArrivalsData}
           >
@@ -218,12 +224,20 @@ const Row1 = () => {
             }}
             data={totalCargoData}
           >
-            <CartesianGrid strokeDasharray="0 10" />
-            <XAxis dataKey="name" />
-            <YAxis />
+            <CartesianGrid vertical={false} stroke={palette.grey[800]} />
+            <XAxis
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: "10px" }}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: "10px" }}
+            />
             <Tooltip />
             <Legend />
-            <Bar dataKey="totalCargo" fill={"#8884d8"} />
+            <Bar dataKey="totalCargo" fill="url(#colorUv)" />
           </BarChart>
         </ResponsiveContainer>
       </DashboardBox>
@@ -231,7 +245,7 @@ const Row1 = () => {
       {/** ROW 1 COLUMN 3 */}
       <DashboardBox gridArea="c">
         <BoxHeader
-          title="Total Container Throughput"
+          title="Total Container Throughput (Monthly)"
           subtitle={"(Thousand Twenty-Foot Equivalent Units)"}
           sideText={calculatePercentageChange(
             totalThroughPutData,
@@ -267,7 +281,7 @@ const Row1 = () => {
             <Area
               type="monotone"
               dataKey="totalThroughput"
-              stroke="#8884d8"
+              stroke={palette.primary.light}
               fillOpacity={1}
               fill="url(#colorUv)"
             />

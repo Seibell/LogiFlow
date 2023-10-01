@@ -3,7 +3,7 @@ from flask_cors import CORS
 import pandas as pd
 import csv
 import os
-from service import stl, cf, init_models
+from service import stl, cf, init_models, retrain_stl
 import logging
 from datetime import date, timedelta
 import pandas as pd
@@ -194,6 +194,7 @@ def upload_data():
             
             writer.writerow(row)
 
+        retrain_stl()   # retrain the model
         return jsonify({"message": "Data uploaded successfully!"}), 200
     except Exception as e:
         logging.error("Exception occured", exc_info=True)

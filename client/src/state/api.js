@@ -20,7 +20,19 @@ export const api = createApi({
         )}`,
       providesTags: ["Data"],
     }),
+    getAllData: build.query({
+      query: ({ columnName }) => `/get_data/${encodeURIComponent(columnName)}`,
+    }),
+    getCostFunction: build.query({
+      query: () => "/cost_function",
+      providesTags: ["CostFunction"],
+    }),
   }),
 });
 
-export const { useGetKpisQuery, useGetHelloQuery, useGetDataQuery } = api;
+export const {
+  useGetKpisQuery,
+  useGetHelloQuery,
+  useGetDataQuery,
+  useGetAllDataQuery,
+} = api;

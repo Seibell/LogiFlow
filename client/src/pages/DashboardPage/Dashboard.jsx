@@ -1,4 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
+import { useState } from "react";
 import Row1 from "./Row1";
 import Row2 from "./Row2";
 import Row3 from "./Row3";
@@ -49,7 +50,12 @@ const gridTemplateSmallScreens = `
 `;
 
 const Dashboard = () => {
+  const [yearSetting, setYearSetting] = useState(2023);
   const isAboveMediumScreens = useMediaQuery("(min-width: 1200px)");
+  const onChangeYearSetting = (year) => {
+    setYearSetting(year);
+  };
+
   return (
     <Box
       width="100%"
@@ -70,9 +76,9 @@ const Dashboard = () => {
             }
       }
     >
-      <Row1 />
-      <Row2 />
-      <Row3 />
+      <Row1 yearSetting={yearSetting} />
+      <Row2 onChangeYearSetting={onChangeYearSetting} />
+      <Row3 yearSetting={yearSetting} />
     </Box>
   );
 };

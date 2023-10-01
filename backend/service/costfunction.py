@@ -18,6 +18,6 @@ class CostFunction:
         params, covariance = curve_fit(logarithmic_function, self.data['Operational Cost'], self.data['Throughput'])
         a,b = params
 
-        latest_cost = self.data[-1]['Operational Cost']
-        slider_range = 500000
+        latest_cost = self.data.iloc[-1]['Operational Cost']
+        slider_range = 100000000
         return a, b, latest_cost, slider_range
