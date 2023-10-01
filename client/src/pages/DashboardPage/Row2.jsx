@@ -10,6 +10,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import Heatmap from "./Heatmap";
 
 const selectStyle = {
   color: "white",
@@ -42,7 +43,12 @@ const Row2 = ({ onChangeYearSetting }) => {
 
   return (
     <>
-      <DashboardBox gridArea="d"></DashboardBox>
+      <DashboardBox gridArea="d">
+        <BoxHeader title="Heatmap" subtitle="Ship activity over time" />
+        <Box width="100%" height="66%" paddingLeft="1rem">
+          <Heatmap />
+        </Box>
+      </DashboardBox>
 
       {/** ROW 2 COLUMN 2 */}
       <DashboardBox gridArea="e">
