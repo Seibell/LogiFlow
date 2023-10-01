@@ -1,7 +1,18 @@
 /* eslint-disable react/prop-types */
 import DashboardBox from "../../components/DashboardBox";
 import BoxHeader from "../../components/BoxHeader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { api } from "../../state/api";
+import { useDispatch } from "react-redux";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
 import {
   Box,
   useTheme,
@@ -30,7 +41,9 @@ const selectStyle = {
 
 const Row2 = ({ onChangeYearSetting }) => {
   const { palette } = useTheme();
+  const dispatch = useDispatch();
   const [yearSetting, setYearSetting] = useState(2023);
+  const [totalThroughPutData, setTotalThroughPutData] = useState([]);
   const years = Array.from(
     { length: 2023 - 1995 + 1 },
     (_, i) => 1995 + i
@@ -41,8 +54,64 @@ const Row2 = ({ onChangeYearSetting }) => {
     setYearSetting(year);
   };
 
+  function calculatePercentageChange(data, name) {
+    const filteredData = [];
+    for (let month of data) {
+      if (month[name] && month[name] !== 0) {
+        filteredData.push(month[name]);
+      }
+    }
+
+    if (filteredData.length < 2) return null;
+
+    const newValue = filteredData[filteredData.length - 1];
+    const oldValue = filteredData[filteredData.length - 2];
+    const percentageChange = ((newValue - oldValue) / oldValue) * 100;
+    return percentageChange.toFixed(2) + "%";
+  }
+
+  useEffect(() => {
+    async function fetchTotalContainerThroughput() {
+      const response = await dispatch(
+        api.endpoints.getAllData.initiate({
+          columnName:
+            "Total Container Throughput (Thousand Twenty-Foot Equivalent Units)",
+        })
+      );
+      const data =
+        response.data[
+          "Total Container Throughput (Thousand Twenty-Foot Equivalent Units)"
+        ];
+      // Step 1: Create an empty object for yearly aggregation
+      const yearlyThroughput = [];
+      let startYear = 1995;
+      let sum_of_throughput_yearly = 0;
+
+      // Step 2: Iterate over the throughput array
+      for (let i = 0; i < data.length; i++) {
+        if (!sum_of_throughput_yearly) {
+          sum_of_throughput_yearly = 0;
+        }
+        sum_of_throughput_yearly += data[i];
+
+        if ((i + 1) % 12 == 0 || i == data.length - 1) {
+          // Check at every 12th month or the last data point
+          yearlyThroughput.push({
+            year: startYear++,
+            totalThroughput: sum_of_throughput_yearly.toFixed(0),
+          });
+          sum_of_throughput_yearly = 0;
+        }
+      }
+      setTotalThroughPutData(yearlyThroughput);
+    }
+
+    fetchTotalContainerThroughput();
+  }, [dispatch]);
+
   return (
     <>
+      {/** ROW 2 COLUMN 1 */}
       <DashboardBox gridArea="d">
         <BoxHeader
           title="Heatmap"
@@ -84,7 +153,49 @@ const Row2 = ({ onChangeYearSetting }) => {
           </FormControl>
         </Box>
       </DashboardBox>
-      <DashboardBox gridArea="f"></DashboardBox>
+
+      {/** ROW 2 COLUMN 3 */}
+      <DashboardBox gridArea="f">
+        <BoxHeader
+          title="Total Container Throughput (Yearly)"
+          subtitle={"(Thousand Twenty-Foot Equivalent Units)"}
+        />
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart
+            width={500}
+            height={500}
+            margin={{
+              top: 20,
+              right: 20,
+              left: 0,
+              bottom: 55,
+            }}
+            data={totalThroughPutData}
+          >
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis dataKey="year" />
+            <YAxis />
+            <CartesianGrid strokeDasharray="0 10" />
+            <Tooltip />
+            <Area
+              type="monotone"
+              dataKey="totalThroughput"
+              stroke={palette.primary.light}
+              fillOpacity={1}
+              fill="url(#colorUv)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </DashboardBox>
     </>
   );
 };

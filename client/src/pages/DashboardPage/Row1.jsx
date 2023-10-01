@@ -224,12 +224,20 @@ const Row1 = ({ yearSetting }) => {
             }}
             data={totalCargoData}
           >
-            <CartesianGrid strokeDasharray="0 10" />
-            <XAxis dataKey="name" />
-            <YAxis />
+            <CartesianGrid vertical={false} stroke={palette.grey[800]} />
+            <XAxis
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: "10px" }}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: "10px" }}
+            />
             <Tooltip />
             <Legend />
-            <Bar dataKey="totalCargo" fill={"#8884d8"} />
+            <Bar dataKey="totalCargo" fill="url(#colorUv)" />
           </BarChart>
         </ResponsiveContainer>
       </DashboardBox>
@@ -237,7 +245,7 @@ const Row1 = ({ yearSetting }) => {
       {/** ROW 1 COLUMN 3 */}
       <DashboardBox gridArea="c">
         <BoxHeader
-          title="Total Container Throughput"
+          title="Total Container Throughput (Monthly)"
           subtitle={"(Thousand Twenty-Foot Equivalent Units)"}
           sideText={calculatePercentageChange(
             totalThroughPutData,
@@ -273,7 +281,7 @@ const Row1 = ({ yearSetting }) => {
             <Area
               type="monotone"
               dataKey="totalThroughput"
-              stroke="#8884d8"
+              stroke={palette.primary.light}
               fillOpacity={1}
               fill="url(#colorUv)"
             />
