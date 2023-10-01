@@ -10,7 +10,7 @@ scipy = "*"
 numpy = "*"
 statsmodels = "*"
 flask-cors = "*"
-gunicorn = "*"
+waitress = "*"
 
 [dev-packages]
 
