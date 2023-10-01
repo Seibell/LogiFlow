@@ -3,7 +3,7 @@ from flask_cors import CORS
 import pandas as pd
 import csv
 import os
-from service import stl, cf, init_models
+from service import stl, cf, init_models, retrain_stl
 import logging
 from datetime import date, timedelta
 import pandas as pd
@@ -53,12 +53,16 @@ def get_data_by_column(column_name):
     if column_name not in column_mapping:
         return jsonify({'error': 'Invalid column name'}), 400
     
-    if month is None:
-        return jsonify({'error': 'Month parameter is required'}), 400
-    
     try:
-        data = df[df['Month'] == month][column_name].tolist()
-        return jsonify({column_name: data})
+        if month:
+            # If the 'month' parameter is provided, filter data for that specific month
+            data = df[df['Month'] == month][column_name].tolist()
+            return jsonify({column_name: data})
+        else:
+            # If 'month' parameter is not provided, return the entire column data
+            data = df[column_name].tolist()
+            monthdata = df['Month'].tolist()
+            return jsonify({column_name: data, 'Months':monthdata})
     except ValueError:
         return jsonify({'error': 'Invalid month value'}), 400
 
@@ -66,17 +70,23 @@ def get_data_by_column(column_name):
 # returns message for format, data object {a,b}
 @app.route('/cost_function', methods=['GET'])
 def get_cost_function():
-    a_constant, b_constant = cf.get_function()
+    a_constant, b_constant, latest_cost, slider_range = cf.get_function()
     res = {
         'a': a_constant,
-        'b': b_constant
+        'b': b_constant,
+        'latest_cost': latest_cost,
+        'slider_range': slider_range
     }
     return jsonify({'message': 'formula is in the format `throughput = a*log(cost) + b`', 'data': res})
 
 @app.route('/predict_cargo/<int:num_months>', methods=['GET'])
 def predict_cargo_route(num_months):
-    cargo_values, start_index, end_index = stl.predict(num_months)
-    return jsonify({'data': cargo_values, 'predicted_index': [start_index, end_index]})
+    cargo_values, month_values, start_index, end_index = stl.predict(num_months)
+    res = {
+        'cargo': cargo_values,
+        'month': month_values
+    }
+    return jsonify({'data': res, 'predicted_index': [start_index, end_index]})
 
 @app.route('/predict_throughput/<int:num_months>', methods=['GET'])
 def predict_throughput_route(num_months):
@@ -122,7 +132,7 @@ def upload_data():
         month_val = f"1/{month}/{year}"
         
         # File path
-        file_path = os.path.join("ml", "cargor_model_monthly.csv")
+        file_path = os.path.join("ml", "cargor_model_monthly_copy.csv")
 
         # Fetch the last row to compute the Month Rank
         with open(file_path, 'r') as csvfile:
@@ -183,6 +193,7 @@ def upload_data():
             
             writer.writerow(row)
 
+        retrain_stl()   # retrain the model
         return jsonify({"message": "Data uploaded successfully!"}), 200
     except Exception as e:
         logging.error("Exception occured", exc_info=True)
