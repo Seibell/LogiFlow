@@ -53,12 +53,16 @@ def get_data_by_column(column_name):
     if column_name not in column_mapping:
         return jsonify({'error': 'Invalid column name'}), 400
     
-    if month is None:
-        return jsonify({'error': 'Month parameter is required'}), 400
-    
     try:
-        data = df[df['Month'] == month][column_name].tolist()
-        return jsonify({column_name: data})
+        if month:
+            # If the 'month' parameter is provided, filter data for that specific month
+            data = df[df['Month'] == month][column_name].tolist()
+            return jsonify({column_name: data})
+        else:
+            # If 'month' parameter is not provided, return the entire column data
+            data = df[column_name].tolist()
+            monthdata = df['Month'].tolist()
+            return jsonify({column_name: data, 'Months':monthdata})
     except ValueError:
         return jsonify({'error': 'Invalid month value'}), 400
 
