@@ -38,6 +38,22 @@ const Row3 = ({ yearSetting }) => {
   const [year, setYear] = useState(yearSetting);
   const [cargoData, setCargoData] = useState([]);
 
+  function calculatePercentageChange(data, name) {
+    const filteredData = [];
+    for (let month of data) {
+      if (month[name] && month[name] !== 0) {
+        filteredData.push(month[name]);
+      }
+    }
+
+    if (filteredData.length < 2) return null;
+
+    const newValue = filteredData[filteredData.length - 1];
+    const oldValue = filteredData[filteredData.length - 2];
+    const percentageChange = ((newValue - oldValue) / oldValue) * 100;
+    return percentageChange.toFixed(2) + "%";
+  }
+
   useEffect(() => {
     setYear(yearSetting);
   }, [yearSetting]);
@@ -124,6 +140,7 @@ const Row3 = ({ yearSetting }) => {
         <BoxHeader
           title="Cargo Breakdown"
           subtitle="Consists of General, Bulk, Oil-In-Bulk, General & Non-Oil In Bulk (Thousand Tonnes)"
+          sideText={calculatePercentageChange(cargoData, "averageCargo")}
         />
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
