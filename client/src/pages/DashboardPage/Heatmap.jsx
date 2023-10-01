@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { ResponsiveCalendar } from "@nivo/calendar";
-import { heatmapData } from "./heatmapData";
+import { generateHeatmapData } from "./heatmapData";
 import { useTheme } from "@mui/material";
 
 const Heatmap = ({ yearSetting = 2023 }) => {
-  const data = heatmapData;
+  const data = generateHeatmapData(yearSetting);
   const { palette } = useTheme();
 
   // Calculate "from" and "to" dates based on yearSetting
@@ -24,10 +24,10 @@ const Heatmap = ({ yearSetting = 2023 }) => {
       from={formatDate(from)}
       to={formatDate(to)}
       emptyColor={palette.grey[900]}
-      colors={["#61cdbb", "#f47560", "#f47560", "#f47560"]}
+      colors={["#61cdbb", "#97e3d5", "#e8c1a0", "#f47560"]}
       margin={{ top: 20, right: 25, bottom: 15, left: 20 }}
       yearSpacing={40}
-      monthBorderColor={palette.background.light}
+      monthBorderColor={palette.grey[800]}
       dayBorderWidth={2}
       dayBorderColor={palette.background.light}
       theme={{

@@ -46,7 +46,7 @@ const Row2 = ({ onChangeYearSetting }) => {
       <DashboardBox gridArea="d">
         <BoxHeader title="Heatmap" subtitle="Ship activity over time" />
         <Box width="100%" height="66%" paddingLeft="1rem">
-          <Heatmap />
+          <Heatmap yearSetting={yearSetting} />
         </Box>
       </DashboardBox>
 
