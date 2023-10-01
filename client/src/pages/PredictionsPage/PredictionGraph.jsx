@@ -16,11 +16,12 @@ import { Button, TextField, Grid } from "@mui/material";
 const CargoChart = () => {
   const [data, setData] = useState([]);
   const [monthsPredicted, setMonthsPredicted] = useState(12);
+  const BASE_URL = import.meta.env.VITE_DEPLOYMENT_URL;
 
   const fetchData = useCallback(async () => {
     try {
       let response = await axios.get(
-        `http://localhost:5000/predict_cargo/${monthsPredicted}`
+        `${BASE_URL}/predict_cargo/${monthsPredicted}`
       );
       let fetchedData = response.data.data;
       const predictedIndexStart = response.data.predicted_index[0];
