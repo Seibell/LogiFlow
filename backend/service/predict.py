@@ -82,9 +82,9 @@ class STLModel:
         forecast.index = range(start_index, end_index)
         
         res = pd.concat([self.df['Total Cargo (Thousand Tonnes)'], forecast]).to_list()
-
+        months = self.df['Month'].to_list()
         # actual+predicted set, start and end of predicted values
-        return res, start_index, end_index
+        return res, months, start_index, end_index
 
     def test(self):
         print(self.df)

@@ -29,12 +29,16 @@ num_months: integer from 1 to 12
 returns JSON:
 ```
 {
-    'data': cargo_dataset,
+    'data': {
+        'cargo': cargo_dataset array,
+        'month': month_dataset array
+    },
     'predicted_index': [start_index, end_index]
 }
 ```
 
 where cargo_dataset is the whole set of total cargo (actual + predicted)
+month_dataset is the whole set of corresponding months for the total cargo data points
 predicted_index is an array of start and end index of the predicted range
 
 ### Get Cost Function

@@ -75,8 +75,12 @@ def get_cost_function():
 
 @app.route('/predict_cargo/<int:num_months>', methods=['GET'])
 def predict_cargo_route(num_months):
-    cargo_values, start_index, end_index = stl.predict(num_months)
-    return jsonify({'data': cargo_values, 'predicted_index': [start_index, end_index]})
+    cargo_values, month_values, start_index, end_index = stl.predict(num_months)
+    res = {
+        'cargo': cargo_values,
+        'month': month_values
+    }
+    return jsonify({'data': res, 'predicted_index': [start_index, end_index]})
 
 @app.route('/predict_throughput/<int:num_months>', methods=['GET'])
 def predict_throughput_route(num_months):
