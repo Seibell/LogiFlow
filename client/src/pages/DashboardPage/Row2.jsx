@@ -159,6 +159,10 @@ const Row2 = ({ onChangeYearSetting }) => {
         <BoxHeader
           title="Total Container Throughput (Yearly)"
           subtitle={"(Thousand Twenty-Foot Equivalent Units)"}
+          sideText={calculatePercentageChange(
+            totalThroughPutData,
+            "totalThroughput"
+          )}
         />
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
