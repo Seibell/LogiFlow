@@ -111,7 +111,7 @@ const Row1 = ({ yearSetting }) => {
             ? arrivalTonnageData[
                 "Vessel Arrivals - Shipping Tonnage (Thousand Gross Tonnes)"
               ][0] / 10
-            : 0,
+            : null,
         });
         totalCargoData.push({
           name: month,
