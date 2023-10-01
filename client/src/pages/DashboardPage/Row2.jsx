@@ -39,6 +39,15 @@ const selectStyle = {
   },
 };
 
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 40 * 4.5 + 8,
+      width: 250,
+    },
+  },
+};
+
 const Row2 = ({ onChangeYearSetting }) => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
@@ -142,6 +151,7 @@ const Row2 = ({ onChangeYearSetting }) => {
               value={yearSetting}
               onChange={(event) => handleOnChange(event.target.value)}
               label="Select Year"
+              MenuProps={MenuProps}
               sx={selectStyle}
             >
               {years.map((year) => (
