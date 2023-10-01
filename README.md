@@ -27,6 +27,11 @@ How can digital solutions powered by data and AI optimize demand and supply in t
 Logiflow brings immense value to PSA and its partners in the supply chain ecosystem by providing accurate estimations of key port operation metrics. It help to prevent congestion at ports, reduces shipping delays, and lowers operational costs, resulting in enhanced reliability and efficiency throughout the supply chain.
 
 ### Tech Stack
+![ReactJS](https://img.shields.io/badge/ReactJS-%2361DAFB.svg?style=for-the-badge&logo=react&logoColor=white)
+![Nivo Charts](https://img.shields.io/badge/Nivo_Charts-007ACC.svg?style=for-the-badge&logo=svg&logoColor=white)
+![REcharts](https://img.shields.io/badge/REcharts-React_Charting_Library-orange?style=for-the-badge)
+![Flask](https://img.shields.io/badge/Flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+
 - Frontend: ReactJS
 - Backend: Flask
 - Data and AI: Python libraries for data analysis and machine learning
