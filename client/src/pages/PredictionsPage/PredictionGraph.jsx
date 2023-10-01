@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  Brush,
 } from "recharts";
 import axios from "axios";
 import moment from "moment";
@@ -69,6 +70,13 @@ const CargoChart = () => {
     fetchData();
   }, []);
 
+  const cargoValues = data.flatMap((item) => [
+    item.totalCargo,
+    item.predictedCargo,
+  ]);
+  const maxCargo = Math.max(...cargoValues);
+  const minCargo = Math.min(...cargoValues);
+
   const handleMonthsPredictedChange = (event) => {
     const value = event.target.value;
     if (value >= 1 && value <= 12) {
@@ -115,9 +123,9 @@ const CargoChart = () => {
         data={data}
         margin={{
           top: 5,
-          right: 30,
+          right: 65,
           left: 20,
-          bottom: 5,
+          bottom: 30,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
@@ -127,8 +135,13 @@ const CargoChart = () => {
           label={{ value: "Months", position: "insideBottomRight", offset: 0 }}
         />
         <YAxis
-          label={{ value: "Total Cargo", angle: -90, position: "insideLeft" }}
-          domain={[25000, 55000]}
+          label={{
+            value: "Total Cargo",
+            angle: -90,
+            position: "insideLeft",
+            offset: -10,
+          }}
+          domain={[minCargo, maxCargo]}
         />
         <Tooltip />
         <Legend />
@@ -146,6 +159,7 @@ const CargoChart = () => {
           activeDot={{ r: 8 }}
           isAnimationActive={false}
         />
+        <Brush dataKey="month" height={30} stroke="#8884d8" />
       </LineChart>
     </div>
   );
