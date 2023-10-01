@@ -12,3 +12,6 @@ cf = c.CostFunction(csv_file_cost)
 def init_models():
     stl.train_model()
     cf.reset_data()
+
+def retrain_stl():
+    stl.train_model()
