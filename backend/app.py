@@ -128,7 +128,7 @@ def upload_data():
         month_val = f"1/{month}/{year}"
         
         # File path
-        file_path = os.path.join("ml", "cargor_model_monthly.csv")
+        file_path = os.path.join("ml", "cargor_model_monthly_copy.csv")
 
         # Fetch the last row to compute the Month Rank
         with open(file_path, 'r') as csvfile:
