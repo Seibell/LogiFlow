@@ -58,3 +58,53 @@ returns JSON:
 ```
 where message is a simple message signifyig the formula and the meaning
 data object consists of a and b as the constants of the forumla
+
+### Get Data by Column
+
+GET /get_data/<column_name>
+
+- Retrieves data from a specified column in the CSV dataset.
+
+**Parameters:**
+
+- `column_name` (string): The name of the column for which you want to retrieve data.
+
+**Optional Query Parameter:**
+
+- `month` (string, format: "yyyy MMM"): Specifies the month for which data should be retrieved. If not provided, returns the entire column data with corresponding months.
+
+**Returns JSON:**
+
+If `month` is provided:
+```
+{
+    '<column_name>': [<data points for the specified month>]
+}
+```
+
+If `month` is not provided:
+```
+{
+    '<column_name>': [<all data points for the column>],
+    'Months': [<corresponding months for the data points>]
+}
+```
+
+- `<column_name>`: The name of the requested column.
+- `<data points for the specified month>`: Data points for the specified month (if `month` is provided).
+- `<all data points for the column>`: All data points for the specified column (if `month` is not provided).
+- `<corresponding months for the data points>`: Corresponding months for the data points (if `month` is not provided).
+
+**Example Usage:**
+
+- To retrieve data for the "Total Cargo (Thousand Tonnes)" column for the month "2023 Jan," use the following URL:
+  ```
+  GET /get_data/Total%20Cargo%20(Thousand%20Tonnes)?month=2023%20Jan
+  ```
+  Returns data for "Total Cargo (Thousand Tonnes)" for January 2023.
+
+- To retrieve the entire "Total Cargo (Thousand Tonnes)" column without specifying a month, use the following URL:
+  ```
+  GET /get_data/Total%20Cargo%20(Thousand%20Tonnes)
+  ```
+  Returns the entire "Total Cargo (Thousand Tonnes)" column with corresponding months.
