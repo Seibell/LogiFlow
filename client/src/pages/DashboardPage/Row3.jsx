@@ -6,6 +6,7 @@ import { api, useGetNewsQuery } from "../../state/api";
 import { useDispatch } from "react-redux";
 import { useTheme, Box } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -38,6 +39,7 @@ const Row3 = ({ yearSetting }) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const [year, setYear] = useState(yearSetting);
+  const [loading, setLoading] = useState(false);
   const [cargoData, setCargoData] = useState([]);
   const [sentimentScore, setSentimentScore] = useState(0);
   const [top10LatestNews, setTop10LatestNews] = useState([]);
@@ -186,6 +188,7 @@ const Row3 = ({ yearSetting }) => {
     }
 
     async function fetchAllData() {
+      setLoading(true);
       const totalCargoData = [];
       const bunkerSalesData = [];
 
@@ -224,6 +227,7 @@ const Row3 = ({ yearSetting }) => {
       }
       setCargoData(totalCargoData);
       setBunkerSalesData(bunkerSalesData);
+      setLoading(false);
     }
 
     fetchAllData();
@@ -239,87 +243,109 @@ const Row3 = ({ yearSetting }) => {
           subtitle="(Thousand Tonnes)"
           sideText={calculatePercentageChange(bunkerSalesData, "bunkerSales")}
         />
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart
-            width={500}
-            height={500}
-            margin={{
-              top: 20,
-              right: 20,
-              left: 0,
-              bottom: 69,
-            }}
-            data={bunkerSalesData}
-          >
-            <CartesianGrid strokeDasharray="0 10" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="bunkerSales" stroke="#ff7300" />
-          </ComposedChart>
-        </ResponsiveContainer>
+        {!loading ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart
+              width={500}
+              height={500}
+              margin={{
+                top: 20,
+                right: 20,
+                left: 0,
+                bottom: 69,
+              }}
+              data={bunkerSalesData}
+            >
+              <CartesianGrid strokeDasharray="0 10" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="bunkerSales" stroke="#ff7300" />
+            </ComposedChart>
+          </ResponsiveContainer>
+        ) : (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <CircularProgress />
+          </Box>
+        )}
       </DashboardBox>
+
+      {/** ROW 3 COLUMN 2 */}
       <DashboardBox gridArea="h">
         <BoxHeader
           title="Cargo Breakdown"
           subtitle="Consists of General, Bulk, Oil-In-Bulk, General & Non-Oil In Bulk (Thousand Tonnes)"
           sideText={calculatePercentageChange(cargoData, "averageCargo")}
         />
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart
-            width={500}
-            height={500}
-            margin={{
-              top: 20,
-              right: 20,
-              left: 0,
-              bottom: 69,
-            }}
-            data={cargoData}
-          >
-            <CartesianGrid strokeDasharray="0 10" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="generalCargo" fill={palette.tertiary[500]} />
-            <Bar dataKey="bulkCargo" fill={palette.primary.main} />
-            <Bar dataKey="oilInBulkCargo" fill={palette.secondary.main} />
-            <Bar dataKey="nonOilBulkCargo" fill={palette.grey.main} />
-            <Line type="monotone" dataKey="averageCargo" stroke="#ff7300" />
-          </ComposedChart>
-        </ResponsiveContainer>
+        {!loading ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart
+              width={500}
+              height={500}
+              margin={{
+                top: 20,
+                right: 20,
+                left: 0,
+                bottom: 69,
+              }}
+              data={cargoData}
+            >
+              <CartesianGrid strokeDasharray="0 10" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="generalCargo" fill={palette.tertiary[500]} />
+              <Bar dataKey="bulkCargo" fill={palette.primary.main} />
+              <Bar dataKey="oilInBulkCargo" fill={palette.secondary.main} />
+              <Bar dataKey="nonOilBulkCargo" fill={palette.grey.main} />
+              <Line type="monotone" dataKey="averageCargo" stroke="#ff7300" />
+            </ComposedChart>
+          </ResponsiveContainer>
+        ) : (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <CircularProgress />
+          </Box>
+        )}
       </DashboardBox>
+
+      {/** ROW 3 COLUMN 3 */}
       <DashboardBox gridArea="i">
         <BoxHeader
           title="News Sentiment Analysis"
           subtitle="Latest headlines from the news related to the port - sentiment ranges from 0 to 10 (most bearish)"
           sideText={"Average sentiment score: " + sentimentScore.toFixed(2)}
         />
-        <Box sx={{ height: "82%", width: "100%", padding: 2 }}>
-          <ThemeProvider theme={dataGridTheme}>
-            <DataGrid
-              sx={{
-                borderColor: palette.grey[800],
-                "& .MuiDataGrid-cell:hover": {
-                  color: palette.primary.main,
-                },
-              }}
-              rows={top10LatestNews}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 3,
+        {!loading ? (
+          <Box sx={{ height: "82%", width: "100%", padding: 2 }}>
+            <ThemeProvider theme={dataGridTheme}>
+              <DataGrid
+                sx={{
+                  borderColor: palette.grey[800],
+                  "& .MuiDataGrid-cell:hover": {
+                    color: palette.primary.main,
                   },
-                },
-              }}
-              pageSizeOptions={[3]}
-              disableRowSelectionOnClick
-            />
-          </ThemeProvider>
-        </Box>
+                }}
+                rows={top10LatestNews}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 3,
+                    },
+                  },
+                }}
+                pageSizeOptions={[3]}
+                disableRowSelectionOnClick
+              />
+            </ThemeProvider>
+          </Box>
+        ) : (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <CircularProgress />
+          </Box>
+        )}
       </DashboardBox>
     </>
   );
