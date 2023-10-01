@@ -123,7 +123,7 @@ const Row2 = ({ onChangeYearSetting }) => {
       {/** ROW 2 COLUMN 1 */}
       <DashboardBox gridArea="d">
         <BoxHeader
-          title="Heatmap"
+          title="Ship traffic heatmap"
           subtitle="Ship activity over time (randomised)"
         />
         <Box width="100%" height="66%" paddingLeft="1rem">
